@@ -6,195 +6,35 @@
 <title>Whatnot CSV Mapper</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f5f4f0;
-    color: #1a1a1a;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-  }
-
-  header {
-    margin-bottom: 2rem;
-  }
-
-  header h1 {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: #1a1a1a;
-  }
-
-  header p {
-    font-size: 14px;
-    color: #666;
-    margin-top: 4px;
-  }
-
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #e5e3de;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .step-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 0.75rem;
-  }
-
-  .upload-zone {
-    border: 1.5px dashed #ccc;
-    border-radius: 10px;
-    padding: 2.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 780px; margin: 0 auto; }
+  header { margin-bottom: 2rem; }
+  header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: #1a1a1a; }
+  header p { font-size: 14px; color: #666; margin-top: 4px; }
+  .card { background: #fff; border-radius: 12px; border: 1px solid #e5e3de; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-bottom: 0.75rem; }
+  .upload-zone { border: 1.5px dashed #ccc; border-radius: 10px; padding: 2.5rem; text-align: center; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
   .upload-zone:hover { background: #faf9f7; border-color: #aaa; }
   .upload-zone input { display: none; }
   .upload-icon { font-size: 32px; margin-bottom: 10px; }
   .upload-label { font-size: 14px; color: #666; }
   .upload-label strong { color: #1a1a1a; }
-
-  .status-bar {
-    display: none;
-    font-size: 13px;
-    color: #555;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: #f0faf4;
-    border-radius: 8px;
-    border: 1px solid #c3e6d0;
-  }
-
-  .info-note {
-    display: none;
-    font-size: 12px;
-    color: #666;
-    padding: 8px 12px;
-    background: #f5f4f0;
-    border-radius: 8px;
-    border: 1px solid #e0ddd8;
-    margin-bottom: 1rem;
-  }
-
-  .map-headers {
-    display: grid;
-    grid-template-columns: 1fr 24px 1fr;
-    gap: 0 8px;
-    margin-bottom: 6px;
-    padding: 0 2px;
-  }
-  .map-headers span {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #aaa;
-  }
-
-  .map-grid {
-    display: grid;
-    grid-template-columns: 1fr 24px 1fr;
-    gap: 7px 8px;
-    align-items: center;
-  }
-
-  .col-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #333;
-    padding: 7px 10px;
-    background: #faf9f7;
-    border-radius: 8px;
-    border: 1px solid #e5e3de;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .status-bar { display: none; font-size: 13px; color: #555; margin-top: 10px; padding: 8px 12px; background: #f0faf4; border-radius: 8px; border: 1px solid #c3e6d0; }
+  .info-note { display: none; font-size: 12px; color: #666; padding: 8px 12px; background: #f5f4f0; border-radius: 8px; border: 1px solid #e0ddd8; margin-bottom: 1rem; }
+  .map-headers { display: grid; grid-template-columns: 1fr 24px 1fr; gap: 0 8px; margin-bottom: 6px; padding: 0 2px; }
+  .map-headers span { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #aaa; }
+  .map-grid { display: grid; grid-template-columns: 1fr 24px 1fr; gap: 7px 8px; align-items: center; }
+  .col-label { font-size: 13px; font-weight: 500; color: #333; padding: 7px 10px; background: #faf9f7; border-radius: 8px; border: 1px solid #e5e3de; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .col-label.has-default { color: #888; font-style: italic; }
   .col-label.locked { color: #bbb; font-style: italic; }
-
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 99px;
-    margin-left: 6px;
-    background: #e8f0fe;
-    color: #3b5bdb;
-    font-style: normal;
-    font-weight: 500;
-  }
-  .badge-locked {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 99px;
-    margin-left: 6px;
-    background: #f0eeeb;
-    color: #bbb;
-    border: 1px solid #e0ddd8;
-    font-style: normal;
-  }
-
-  .arrow {
-    text-align: center;
-    color: #ccc;
-    font-size: 16px;
-    user-select: none;
-  }
-
-  .map-grid select {
-    font-size: 13px;
-    padding: 7px 8px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background: #fff;
-    color: #1a1a1a;
-    width: 100%;
-    cursor: pointer;
-  }
+  .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 99px; margin-left: 6px; background: #e8f0fe; color: #3b5bdb; font-style: normal; font-weight: 500; }
+  .badge-locked { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 99px; margin-left: 6px; background: #f0eeeb; color: #bbb; border: 1px solid #e0ddd8; font-style: normal; }
+  .arrow { text-align: center; color: #ccc; font-size: 16px; user-select: none; }
+  .map-grid select { font-size: 13px; padding: 7px 8px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; width: 100%; cursor: pointer; }
   .map-grid select:focus { outline: 2px solid #3b5bdb; outline-offset: 1px; }
-
-  .locked-label {
-    font-size: 13px;
-    color: #ccc;
-    padding: 7px 10px;
-    background: #faf9f7;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    font-style: italic;
-  }
-
-  .btn-download {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #1a1a1a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 22px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
+  .locked-label { font-size: 13px; color: #ccc; padding: 7px 10px; background: #faf9f7; border-radius: 8px; border: 1px solid #eee; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .btn-download { display: inline-flex; align-items: center; gap: 8px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
   .btn-download:hover { background: #333; }
-
   #mappingSection, #downloadSection { display: none; }
 </style>
 </head>
@@ -206,7 +46,7 @@
     <p>Upload your distributor CSV, map the columns, and download a Whatnot-ready file.</p>
   </header>
 
-  <div class="card" id="uploadCard">
+  <div class="card">
     <div class="step-label">Step 1 — Upload distributor CSV</div>
     <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
       <input type="file" id="fileInput" accept=".csv" />
@@ -242,7 +82,7 @@ const WHATNOT_FIELDS = [
   { name: "Sub Category",     defaultVal: "Modern Comics",  locked: false },
   { name: "Title",            defaultVal: "",               locked: false },
   { name: "Description",      defaultVal: "New and unread. Bagged and boarded.", locked: true, lockedVal: "New and unread. Bagged and boarded." },
-  { name: "Quantity",         defaultVal: "",               locked: true  },
+  { name: "Quantity",         defaultVal: "",               locked: true },
   { name: "Type",             defaultVal: "Buy it Now",     locked: false },
   { name: "Price",            defaultVal: "",               locked: false },
   { name: "Shipping Profile", defaultVal: "4-7 oz",         locked: false },
@@ -292,6 +132,10 @@ function findHeaderRow(rows) {
 }
 
 function autoMatch(inHeaders, fieldName) {
+  // These always use defaults — never auto-match from distributor columns
+  if (fieldName === 'Category' || fieldName === 'Sub Category') return '';
+  // Never match Whatnot fields to distributor columns that contain "category"
+  if (/category/i.test(fieldName)) return '';
   if (fieldName === 'Price') {
     const retail = inHeaders.find(h => /retail/i.test(h) && !/discount/i.test(h));
     if (retail) return retail;
@@ -299,7 +143,10 @@ function autoMatch(inHeaders, fieldName) {
   const fn = fieldName.toLowerCase().replace(/\s+/g, '');
   for (let h of inHeaders) {
     const hn = h.toLowerCase().replace(/[\s_]+/g, '');
-    if (hn === fn || hn.includes(fn) || fn.includes(hn)) return h;
+    // Only exact match or the distributor column name contains the full field name
+    // Never match if the distributor column has extra words that change its meaning (e.g. "itemcategory" != "category")
+    if (hn === fn) return h;
+    if (hn.includes(fn) && hn.length < fn.length + 4) return h;
   }
   return '';
 }
@@ -321,7 +168,6 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
     headerRowIndex = findHeaderRow(allRows);
     inputHeaders = allRows[headerRowIndex];
     parsedRows = allRows.slice(headerRowIndex + 1).filter(r => r.some(c => c !== ''));
-
     const sb = document.getElementById('statusBar');
     sb.style.display = 'block';
     sb.textContent = '✓ ' + file.name + ' — ' + parsedRows.length + ' items loaded.';
@@ -346,7 +192,6 @@ function buildMappingUI() {
   WHATNOT_FIELDS.forEach(field => {
     const matched = field.locked ? '' : autoMatch(inputHeaders, field.name);
     const hasDefault = field.defaultVal !== '';
-
     const blankLabel = hasDefault ? `— use default: ${field.defaultVal} —` : '— leave blank —';
     const opts = [`<option value="">${blankLabel}</option>`]
       .concat(inputHeaders.map(h => `<option value="${h.replace(/"/g,'&quot;')}">${h}</option>`))
